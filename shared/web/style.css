@@ -12,17 +12,24 @@ table th{
 	text-align: center;
 }
 .logtable {
-	width: 100%;
-	border: 1px solid;
-	table-layout: auto;
+       width: 100%;
+       border: 0px solid;
+       table-layout: auto;
 }
 .logtable td {
-	word-wrap: break-word;
-	border: 1px solid;
-	word-break: break-all;
+       word-wrap: break-word;
+       border: 1px solid;
+       word-break: break-all;
 }
 .logtable td:first-child {
-	width: 25%;
+       width: 25%;
+}
+.logtable tr:nth-child(even) {
+       background: #CCC;
+       border: 0px;
+}
+.logtable tr:nth-child(odd) {
+       background: #FFF;
 }
 .leasetable td {
 	width: 20%;
