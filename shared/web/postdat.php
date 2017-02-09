@@ -18,7 +18,7 @@ log_error("============================================\n\n");
 switch($_GET['target']){
 	case "zipreceive":
 		$fileName = $_FILES["zippedConfig"]["tmp_name"];
-		$zip = new ZipArchive; 
+		$zip = new ZipArchive;
 		if (!$zip->open($fileName)){
 			exit("Error reading zip-archive!");
 			$RESTART=false;
@@ -44,10 +44,10 @@ switch($_GET['target']){
 				$RESTART=false;
 			}
 			$zip->close();
-		} 
+		}
 	break;
 	case "start":
-		$result = shell_exec("ssh -i /share/CACHEDEV1_DATA/.qpkg/dnsmasq/id_rsa_npw -o StrictHostKeyChecking=no admin@localhost \"/etc/init.d/dnsmasq.sh start\"");
+		$result = shell_exec("ssh -i $installPath/dnsmasq/id_rsa_npw -o StrictHostKeyChecking=no admin@localhost \"/etc/init.d/dnsmasq.sh start\"");
 
 		log_error("\n******** start_result ********\n".print_r($result,true)."\n");
 
@@ -60,7 +60,7 @@ switch($_GET['target']){
 		$RESTART=false;
 	break;
 	case "stop":
-		$result = shell_exec("ssh -i /share/CACHEDEV1_DATA/.qpkg/dnsmasq/id_rsa_npw -o StrictHostKeyChecking=no admin@localhost \"/etc/init.d/dnsmasq.sh stop\"");
+		$result = shell_exec("ssh -i $installPath/dnsmasq/id_rsa_npw -o StrictHostKeyChecking=no admin@localhost \"/etc/init.d/dnsmasq.sh stop\"");
 
 		log_error("\n******** stop_result ********\n".print_r($result,true)."\n");
 
@@ -74,7 +74,7 @@ switch($_GET['target']){
 	break;
 	case "hostmap":
 		log_error("HOSTMAP CONFIG");
-		
+
 		$file = sprintf("%-'#40s%-'#20s%-'#20s\n","# IP ", " HOSTNAME ", " FQDN ");
 
 		foreach($arr as $line){
@@ -95,12 +95,12 @@ switch($_GET['target']){
 	break;
 	case "dhcpleases":
 		log_error("DHCPHOSTS CONFIG");
-		
+
 		$file = sprintf("%-'#20s%-'#20s%-'#20s%-'#20s\n","# MAC ", " IP ADDR ", " HOSTNAME ", " LEASETIME ");
 
 		foreach($arr as $line){
 			$file .= sprintf("%s%s%s%s\n",$line["mac"].",",$line["ip_addr"].",",$line["hostname"],($line["leasetime"]?",":"").$line["leasetime"]);
-		}		
+		}
 
 		file_put_contents($installPath."/dnsmasq_dhcphosts.conf.test",$file);
 		chmod($installPath."/dnsmasq_dhcphosts.conf.test",0664);
@@ -172,7 +172,7 @@ EOF;
 if($RESTART){
 	log_error("\n".print_r($file,true)."\n");
 
-	$restart_result = shell_exec("ssh -i /share/CACHEDEV1_DATA/.qpkg/dnsmasq/id_rsa_npw -o StrictHostKeyChecking=no admin@localhost \"/etc/init.d/dnsmasq.sh restart\"");
+	$restart_result = shell_exec("ssh -i $installPath/dnsmasq/id_rsa_npw -o StrictHostKeyChecking=no admin@localhost \"/etc/init.d/dnsmasq.sh restart\"");
 
 	log_error("\n******** restart_reload_result ********\n".print_r($restart_result,true)."\n");
 
@@ -183,8 +183,3 @@ if($RESTART){
 		echo "Config & Restart: FAILURE";
 	}
 }
-
-
-
-
-
