@@ -157,5 +157,5 @@ pkg_post_install(){
 	/usr/bin/ssh-keygen -N dnsmasq -t rsa -C "dnsmasq_webui_command_login" -f $SYS_QPKG_DIR/id_rsa
 	/usr/bin/openssl rsa -in $SYS_QPKG_DIR/id_rsa -out $SYS_QPKG_DIR/id_rsa_npw -passin pass:dnsmasq
 	/bin/cat $SYS_QPKG_DIR/id_rsa.pub >> /etc/config/ssh/authorized_keys
-	/bin/chmod 440 $SYS_QPKG_DIR/dnsmasq/id_rsa_npw
+	/bin/chmod 440 $SYS_QPKG_DIR/id_rsa_npw
 }
