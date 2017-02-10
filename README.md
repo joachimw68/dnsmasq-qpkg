@@ -1,5 +1,11 @@
 ## My updates
 
+### 10 Feb 2017
+* fixed bug in file permission setting for id_rsa_npw during package install
+* Config Tab - added fields to enter/change upstream DNS server
+* fixed bug in my previous version of postdat.php
+  
+### 09 Feb 2017
 * Added some error handling to zipconfig.php
 * Changed achive function to only write a temporary zip file to not fill up the folder. Downloaded zip still has timestamp.
 * Changed file permissions in package_routines to give write access for httpdusr (g+w)

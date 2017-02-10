@@ -23,8 +23,8 @@
 			<li><a href="#tabs-5">Static Hostnames</a></li>
 			<li><a href="#tabs-6">Administration</a></li>
 		</ul>
-		
-		
+
+
 
 
 
@@ -33,28 +33,28 @@
 
 
 	<!---- CURRENT LEASES --->
-		
+
 	<div id="tabs-1">
 		<table class="leasetable">
 			<thead>
 				<tr>
 					<th>Lease Expiration</th>
-					<th>MAC Address</th> 
-					<th>IP Address</th> 
-					<th>Hostname</th> 
-					<th>Client ID</th> 
+					<th>MAC Address</th>
+					<th>IP Address</th>
+					<th>Hostname</th>
+					<th>Client ID</th>
 				</tr>
 			</thead>
 			<tbody>
 <?php
 foreach($lease_lines as $line_num => $line){
 	$arr=explode(" ",$line);
-	
+
 	# ctype_space checks for \n\r\t
 	# duid is the ipv6 name for the dhcp server see --dhcp-duid in manpages
-	if( (strlen($line) > 0 && substr($line,0,1) == "#") || 
-		(strlen($line) > 0 && substr($line,0,4) == "duid") || 
-		ctype_space($line) || 
+	if( (strlen($line) > 0 && substr($line,0,1) == "#") ||
+		(strlen($line) > 0 && substr($line,0,4) == "duid") ||
+		ctype_space($line) ||
 		$line=='' ){
 		// this is a comment or whitespace line, do nothing.
 	} else if( !in_array(sizeof($arr),array(4,5))) {
@@ -72,7 +72,7 @@ foreach($lease_lines as $line_num => $line){
 		";
 	}
 
-	
+
 }
 ?>
 			</tbody>
@@ -117,16 +117,16 @@ foreach($log_lines as $line_num => $line){
 ?>
 		</table>
 	</div>
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
 	<!---- CONFIG --->
-	
+
 	<div id="tabs-3">
 		<form class="ajaxForm" method="POST" action="postdat.php?target=config">
 		<ol>
@@ -145,7 +145,7 @@ foreach($log_lines as $line_num => $line){
 					}
 					?>
 				</select>
-				
+
 			</li>
 			<li>
 				<label for="domain">Domain: </label>
@@ -153,6 +153,14 @@ foreach($log_lines as $line_num => $line){
 			</li>
 			<li>
 				<label for="dns_server1">Upstream DNS Srv 1: </label>
+				<input type="text" name="dns_server1" value="<?php echo $conf['server'][0]; ?>" title="Server 1" />
+			</li>
+			<li>
+				<label for="dns_server2">Upstream DNS Srv 2: </label>
+				<input type="text" name="dns_server2" value="<?php echo $conf['server'][1]; ?>" title="Server 2" />
+			</li>
+
+			<li>
 				<label for="cache-size">Cache Size: </label>
 				<input type="text" name="cache-size" value="<?php echo $conf['cache-size']; ?>" />
 			</li>
@@ -205,28 +213,30 @@ foreach($log_lines as $line_num => $line){
 		</div>
 		</form>
 	</div>
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
 	<!---- STATIC LEASES --->
 
-	
-	
-	
-	
+
+
+
+
 	<div id="tabs-4">
 		<table class="editableTable" id="table_dhcpleases">
 			<thead>
 				<tr>
 					<th data-override="mac">MAC</th>
 					<th data-override="ip_addr">IP Address</th>
-					<th data-override="hostname">Hostname</th> 
-					<th data-override="leasetime">Leasetime<br />(m/minutes,h/hours,d/days)<br />(optional)</th> 
+					<th data-override="hostname">Hostname</th>
+					<th data-override="leasetime">Leasetime<br />(m/minutes,h/hours,d/days)<br />(optional)</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -234,7 +244,7 @@ foreach($log_lines as $line_num => $line){
 
 foreach($dhcphosts_lines as $line_num => $line){
 	$arr=explode(",",$line);
-	
+
 	# ctype_space checks for \n\r\t
 	if( (strlen($line) > 0 && substr($line,0,1) == "#") || ctype_space($line) || $line=='' ){
 		// this is a comment or whitespace line, do nothing.
@@ -253,7 +263,7 @@ foreach($dhcphosts_lines as $line_num => $line){
 		";
 	}
 
-	
+
 }
 
 ?>
@@ -274,25 +284,25 @@ foreach($dhcphosts_lines as $line_num => $line){
 		</div>
 
 	</div>
-	
-	
-	
-	
-	
-	<!---- STATIC HOSTS --->
-	
 
-	
-	
-	
-	
+
+
+
+
+	<!---- STATIC HOSTS --->
+
+
+
+
+
+
 	<div id="tabs-5">
 		<table id="table_hostmap" class="editableTable">
 			<thead>
 				<tr>
 					<th data-override="ip_addr">IP Address</th>
-					<th data-override="hostname">Hostname</th> 
-					<th data-override="fqdn">FQDN (optional)</th> 
+					<th data-override="hostname">Hostname</th>
+					<th data-override="fqdn">FQDN (optional)</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -319,7 +329,7 @@ foreach($hostmap_lines as $line_num => $line){
 		";
 	}
 
-	
+
 }
 
 ?>
@@ -335,7 +345,7 @@ foreach($hostmap_lines as $line_num => $line){
 			<div class="helpmsg">To edit, double click a table cell, when done press the [enter] key, then click "Save and Update"</div>
 		</div>
 
-		
+
 	</div>
 
 
@@ -346,12 +356,12 @@ foreach($hostmap_lines as $line_num => $line){
 
 
 	<!--- ADMINISTRATION --->
-	
 
-	
-	
-	
-	
+
+
+
+
+
 	<div id="tabs-6">
 
 		<form class="ajaxForm" action="postdat.php?target=zipreceive" method="post" enctype="multipart/form-data">
@@ -370,12 +380,12 @@ foreach($hostmap_lines as $line_num => $line){
 		</form>
 
 		<hr />
-		
+
 		<div class="floatwrap">
 			<a class="button" href="zipconfig.php">Download Backup Config</a>
 		</div>
 		<hr />
-		
+
 		<div id="dnsmasq_status">
 
 		</div>
@@ -398,7 +408,7 @@ foreach($hostmap_lines as $line_num => $line){
 			checkStatus();
 		</script>
 		<hr />
-						
+
 		<div class="floatwrap">
 			<form id="dnsmasq_start" class="ajaxForm" method="POST" action="postdat.php?target=start">
 				<button class="button" id="start">Start Dnsmasq</button>
@@ -411,7 +421,7 @@ foreach($hostmap_lines as $line_num => $line){
 
 
 
- 
- 
+
+
 </body>
 </html>
