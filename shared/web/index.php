@@ -152,6 +152,7 @@ foreach($log_lines as $line_num => $line){
 				<input type="text" name="domain" value="<?php echo $conf['domain']; ?>" title="domain for dns" />
 			</li>
 			<li>
+				<label for="dns_server1">Upstream DNS Srv 1: </label>
 				<label for="cache-size">Cache Size: </label>
 				<input type="text" name="cache-size" value="<?php echo $conf['cache-size']; ?>" />
 			</li>
@@ -204,8 +205,6 @@ foreach($log_lines as $line_num => $line){
 		</div>
 		</form>
 	</div>
-	
-	
 	
 	
 	
