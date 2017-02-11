@@ -37,7 +37,7 @@ function getAjax(destURL,callback){
 function sendJSON(jsonstring, target, destURL){
 	//json should already be stringify()
 	//default destURL
-	destURL = typeof destURL !== 'undefined' ? destURL : '/postdat.php';
+	destURL = typeof destURL !== 'undefined' ? destURL : 'postdat.php';
 	destURL = destURL + '?target=' + target;
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", destURL , true);
