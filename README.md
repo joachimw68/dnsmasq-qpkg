@@ -1,5 +1,10 @@
 ## My updates
 
+### 12 Feb 2017
+* Added function to configure cname records via new Tab
+
+next step: build a new qpkg 
+
 ### 10 Feb 2017
 * fixed bug in file permission setting for id_rsa_npw during package install
 * Config Tab - added fields to enter/change upstream DNS server
