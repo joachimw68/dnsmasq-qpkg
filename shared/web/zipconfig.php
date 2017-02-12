@@ -5,16 +5,20 @@ include("functions.php");
 $file_names = array(
 	'dnsmasq.conf',
 	'dnsmasq_dhcphosts.conf',
-	'dnsmasq_hostmap.conf'
+	'dnsmasq_hostmap.conf',
+	'dnsmasq_cnames.conf'
 	);
+	
 $archive_file_name = $QPKG_NAME.'_config_backup_'.date("ymd.His").'.zip';
 $temp_zip_file_name = "~temp.zip";
 
 //check if dir is writable for webserver user
 if (!is_writable($installPath."/web")) {
-	log_error("Zip cannot write to $installPath/web dir.");
+	//log_error("Zip cannot write to $installPath/web dir.\n");
 	exit("Error: cannot write to $installPath/web \n");
 }
+
+log_error("Create zip file ".$installPath."/web/".$temp_zip_file_name."\n");
 
 $zip = new ZipArchive();
 //create the file and throw the error if unsuccessful

@@ -21,7 +21,8 @@
 			<li><a href="#tabs-3">Config</a></li>
 			<li><a href="#tabs-4">DHCP Hosts</a></li>
 			<li><a href="#tabs-5">Static Hostnames</a></li>
-			<li><a href="#tabs-6">Administration</a></li>
+			<li><a href="#tabs-6">Alias Names</a></li>
+			<li><a href="#tabs-7">Administration</a></li>
 		</ul>
 
 
@@ -349,10 +350,58 @@ foreach($hostmap_lines as $line_num => $line){
 	</div>
 
 
+	<!---- Alias HOSTS (cnames) --->
+
+	<div id="tabs-6">
+		<table id="table_cnames" class="editableTable">
+			<thead>
+				<tr>
+					<th data-override="cname">Alias (cname)</th>
+					<th data-override="hostname">Hostname</th>
+				</tr>
+			</thead>
+			<tbody>
+<?php
+
+// var_dump($cnames_lines);
+
+foreach($cnames_lines as $line_num => $line){
+	# there can be multiple consecutive tabs (or spaces) in the config - filter out whitespace.
+	$arr=array_values(array_filter(explode(" ",str_replace(array("=",",")," ",$line))));
+
+	# ctype_space checks for \n\r\t
+	if( (strlen($line) > 0 && substr($line,0,1) == "#") || ctype_space($line) || $line=='' ){
+		// this is a comment or whitespace line, do nothing.
+	} else if( !in_array(sizeof($arr),array(2,3))) {
+		# not a comment or whitespace the line doesn't have 2 or 3 commas, error
+		log_error("hostmap config line @$line_num '$line' (".str_hex($line).") is invalid",true);
+		continue 1;
+	} else {
+		echo "
+			<tr>
+				<td>".$arr[1]."</td>
+				<td>".$arr[2]."</td>
+			</tr>
+		";
+	}
 
 
+}
+
+?>
+				<tr>
+					<td></td>
+					<td></td>
+				<tr>
+			</tbody>
+		</table>
+		<div class="floatwrap">
+			<button class="button convertTable" id="send_cnames">Save & Update</button>
+			<div class="helpmsg">To edit, double click a table cell, when done press the [enter] key, then click "Save and Update"</div>
+		</div>
 
 
+	</div>
 
 
 	<!--- ADMINISTRATION --->
@@ -362,16 +411,17 @@ foreach($hostmap_lines as $line_num => $line){
 
 
 
-	<div id="tabs-6">
+	<div id="tabs-7">
 
 		<form class="ajaxForm" action="postdat.php?target=zipreceive" method="post" enctype="multipart/form-data">
 			<input type="file" name="zippedConfig" id="zippedConfig"><br />
-			<i>This hould be a Zip File of a previously backed up configuration from dnsmasq-qpkg<br />
+			<i>This should be a Zip File of a previously backed up configuration from dnsmasq-qpkg<br />
 			Containing:<br />
 			<ul>
 				<li>dnsmasq.conf</li>
 				<li>dnsmasq_dhcphosts.conf</li>
 				<li>dnsmasq_hostmap.conf</li>
+				<li>dnsmasq_cnames.conf</li>
 			</ul>
 			</i>
 			<div class="floatwrap">
@@ -391,7 +441,7 @@ foreach($hostmap_lines as $line_num => $line){
 		</div>
 		<script>
 			function checkStatus(){
-				if(document.getElementById('tabs-6').style.display != 'none'){
+				if(document.getElementById('tabs-7').style.display != 'none'){
 					getAjax("getstatus.php",updateStatus);
 				}
 				setTimeout(checkStatus, 5000);

@@ -13,6 +13,7 @@ $log_lines = array_reverse(file($log_path));
 $lease_lines = file($installPath."/dnsmasq.leases");
 $dhcphosts_lines = file($installPath."/dnsmasq_dhcphosts.conf");
 $hostmap_lines = file($installPath."/dnsmasq_hostmap.conf");
+$cnames_lines = file($installPath."/dnsmasq_cnames.conf");
 $TIME_ADJUST = FALSE;
 $interfaces=array_values(preg_grep("/^(eth|br|bond).$/",scandir("/sys/class/net/")));
 $ipv6 = (trim(shell_exec('/sbin/getcfg Network IPV6 -d "" -f /etc/config/uLinux.conf')) === 'TRUE'?true:false);

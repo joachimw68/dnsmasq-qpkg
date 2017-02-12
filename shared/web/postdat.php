@@ -8,9 +8,11 @@ $arr = json_decode($json,true);
 
 log_error("============================================\n\n");
 
-log_error(print_r($json,true)."\n");
+log_error("JSON: ".print_r($json,true)."\n");
 
-log_error(print_r($arr,true)."\n");
+//log_error(print_r($arr,true)."\n");
+
+log_error("target: ". $_GET['target']."\n");
 
 log_error("============================================\n\n");
 
@@ -23,16 +25,17 @@ switch($_GET['target']){
 			exit("Error reading zip-archive!");
 			$RESTART=false;
 		}
-		if( $zip->numFiles != 3){
+		if( $zip->numFiles != 4){
 			$zip->close();
-			exit("Invalid Backup Format, expected 3 files, found ".$zip->numFiles);
+			exit("Invalid Backup Format, expected 4 files, found ".$zip->numFiles);
 			$RESTART=false;
 		}
 		for($i = 0; $i < $zip->numFiles; $i++){
 			if(in_array($zip->getNameIndex($i),array(
 			'dnsmasq.conf',
 			'dnsmasq_dhcphosts.conf',
-			'dnsmasq_hostmap.conf'
+			'dnsmasq_hostmap.conf',
+			'dnsmasq_cnames.conf'
 			)
 			)){
 				//valid lets export now
@@ -88,6 +91,28 @@ switch($_GET['target']){
 			chmod($installPath."/dnsmasq_hostmap.conf.bck",0664);
 			rename($installPath."/dnsmasq_hostmap.conf.test",$installPath."/dnsmasq_hostmap.conf");
 			chmod($installPath."/dnsmasq_hostmap.conf",0664);
+		} else {
+			$RESTART=false;
+			echo "Configuration Invalid; Restart aborted.";
+		}
+	break;
+	case "cnames":
+		log_error("CNAME CONFIG");
+
+    $file =  "# additional dnsmasq configuration file for cname records\n";
+    $file .= "#cname = alias.mylocaldomain.com,myNAShostname\n";
+    
+		foreach($arr as $line){
+			$file .= sprintf("cname=%s,%s\n",$line["cname"],$line["hostname"]);
+		}
+		file_put_contents($installPath."/dnsmasq_cnames.conf.test",$file);
+		chmod($installPath."/dnsmasq_cnames.conf.test",0664);
+		exec($installPath."/dnsmasq --test -C ".$installPath."/dnsmasq_cnames.conf.test --addn-hosts=".$installPath."/dnsmasq_hostmap.conf.test &> /dev/null",$output,$exitCode);
+		if(!$exitCode){
+			rename($installPath."/dnsmasq_cnames.conf",$installPath."/dnsmasq_cnames.conf.bck");
+			chmod($installPath."/dnsmasq_cnames.conf.bck",0664);
+			rename($installPath."/dnsmasq_cnames.conf.test",$installPath."/dnsmasq_cnames.conf");
+			chmod($installPath."/dnsmasq_cnames.conf",0664);
 		} else {
 			$RESTART=false;
 			echo "Configuration Invalid; Restart aborted.";
@@ -168,6 +193,10 @@ EOF;
 			$file .= "enable-ra\n";
 			$file .= "dhcp-range=".$_POST['dhcp-range-start-6'].",".$_POST['dhcp-range-end-6'].",constructor:".$_POST['interface'].",ra-names\n";
 		}
+
+		$file .= "# Include additional configuration file for cname records\n";
+		$file .= "conf-file=".$installPath."/dnsmasq_cnames.conf\n";
+
 		file_put_contents($installPath."/dnsmasq.conf.test",$file);
 		chmod($installPath."/dnsmasq.conf.test",0664);
 		exec($installPath."/dnsmasq --test -C ".$installPath."/dnsmasq.conf.test --dhcp-hostsfile=".$installPath."/dnsmasq_dhcphosts.conf.test --addn-hosts=".$installPath."/dnsmasq_hostmap.conf.test &> /dev/null",$output,$exitCode);
@@ -184,13 +213,13 @@ EOF;
 }
 // restart dnsmasq
 if($RESTART){
-	log_error(" ******** begin dnsmasq.conf file ********\n".print_r($file,true)."\n");
+	log_error(" *****************************************\n".print_r($file,true)."\n");
 	// log_error("\n".print_r($file,true)."\n");
-	log_error(" ******** end dnsmasq.conf file ********\n");
+	log_error(" *****************************************\n");
 
 	$restart_result = shell_exec("ssh -i $installPath/id_rsa_npw -o StrictHostKeyChecking=no admin@localhost \"/etc/init.d/dnsmasq.sh restart\"");
 
-	log_error(" ******** restart_reload_result ********\n".print_r($restart_result,true)."\n");
+	log_error(" ********* restart_reload_result *********\n".print_r($restart_result,true)."\n");
 
 	header('Content-Type: text/javascript; charset=utf8');
 	if(strpos($restart_result,"is now running") !== FALSE && getStatus()){
