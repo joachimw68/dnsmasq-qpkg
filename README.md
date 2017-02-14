@@ -1,58 +1,25 @@
-## My updates
+# dnsmasq-qpkg release v0.1g 
 
-### 12 Feb 2017
-* Added function to configure cname records via new Tab
+This qpkg is a new release / fork of the original dnsmasq-qpkg repository (v0.1f) by Eric Hiller <https://github.com/erichiller/dnsmasq-qpkg>
+and includes the updates for log table coloring and add interface type bond by Ryan Blakeslee <https://github.com/rblakeslee/dnsmasq-qpkg>.
 
-next step: build a new qpkg 
+### BugFix
+Fixed some issues of the v0.1f release:
+* Error 404 ... The requested URL /postdat.php was not found on this server.  
+* Correct the references to installation path in postdat.php
+* setting the right ownership of all the .conf files
+ 
+### Changes / Additions
 
-### 10 Feb 2017
-* fixed bug in file permission setting for id_rsa_npw during package install
-* Config Tab - added fields to enter/change upstream DNS server
-* fixed bug in my previous version of postdat.php
-  
-### 09 Feb 2017
-* Added some error handling to zipconfig.php
-* Changed achive function to only write a temporary zip file to not fill up the folder. Downloaded zip still has timestamp.
-* Changed file permissions in package_routines to give write access for httpdusr (g+w)
-* Removed fixed installation path "/share/CACHEDEV1_DATA..." now using $installPath (fix for my old TS239)
+* The archive function is changed to write a temporary zip file to avoid filling the folder with old zip files. The downloaded zip file still has the timestamp-filename.
+* Added feature to set/change two upstream DNS servers in the config tab.
+* Added feature to configure DNS alias names (cname records) via a new tab in the webui.
 
-Forked from rblakeslee/dnsmasq-qpkg and based on:
+The dnsmasq binary files are not updated, as I'm not into cross compiling.
 
-https://github.com/erichiller/dnsmasq-qpkg
+The package is only tested on TS239 Pro II (x86) with firmware 4.2.2 
 
-# Release v0.1f - 28 Dec 2015
+Tests and comments are welcome via https://github.com/joachimw68/dnsmasq-qpkg
 
-## Addition
-* log rotate
-* update dnsmasq.sh to notify user of status; ie. statup / config settings change / fail
-* Add confirmation that your changes took upon clicking submit in config, leases, hosts; and server restarted
-* Added ARM build arm-x09 (please test for me!)
-* Added ARM build arm-x19 (please test for me!)
-* Administration Tab - View process running status / Live Refresh on tab view
-* Administration Tab - Start & Stop Process with result / confirmation
-* Administration Tab - Download ZIP backup configuration
-* Administration Tab - Upload ZIP backup config, Restore & Reboot dnsmasq
-* Removed jQuery form plugin dependency
-* Configurations now staged and tested before being commited and dnsmasq rebooted
-* Test for presence of IPV6
-* Can now configure what interface dnsmasq is bound to
-* Can Enable/Disabled DHCP server
-* Better process restart checking on config change & dnsmasq reboot
-* Added ability to configure IPv6 DHCP range
-* Cleaned up alerts / do not use javascript `alert()`
 
-## BugFix
-* reverse log listing -- newest @ Top
-* no <tr> for blank lines in the log file
-* proper parsing of IPv6 lease log entries on web interface
-* Current Leases should read "Expiring" not "assigned" for Time
-* Fix lease time // adjust for mismatched timezone in web ui
-* Following from timezone correction - correct lease expiration time now shown
-* removed confusing prepended scriptname output in message
-* Explain that you have to click "Enter" in the tables for leases, hosts for the changes to take
-* Fixed Bug in WebUI that crashed QPKG main config read in certain instances.
-* Fixed bug in uninstall
-* Fixed several bugs in installation
 
-# Information
-See: <http://hiller.pro/dnsmasq-qpkg/>
