@@ -148,6 +148,7 @@ pkg_post_install(){
 	/bin/chmod 777 $SYS_QPKG_DIR/logrotate.sh
 	/bin/chmod 664 $SYS_QPKG_DIR/dnsmasq_hostmap.conf
 	/bin/chmod 664 $SYS_QPKG_DIR/dnsmasq_dhcphosts.conf
+	/bin/chmod 664 $SYS_QPKG_DIR/dnsmasq_cnames.conf
 	/bin/touch $SYS_QPKG_DIR/dnsmasq.log
 	/bin/chmod 664 $SYS_QPKG_DIR/dnsmasq.log
 	/bin/chmod 664 $SYS_QPKG_DIR/dnsmasq.conf
