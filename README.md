@@ -1,7 +1,7 @@
 # dnsmasq-qpkg release v0.1g 
 
-This qpkg is a new release / fork of the original dnsmasq-qpkg repository (v0.1f) by Eric Hiller <https://github.com/erichiller/dnsmasq-qpkg>
-and includes the updates for log table coloring and add interface type bond by Ryan Blakeslee <https://github.com/rblakeslee/dnsmasq-qpkg>.
+This qpkg is a new release / fork of the original dnsmasq-qpkg repository (v0.1f) by Eric Hiller [erichiller/dnsmasq-qpkg]( https://github.com/erichiller/dnsmasq-qpkg)
+and includes the updates for log table coloring and add interface type bond by Ryan Blakeslee [rblakeslee/dnsmasq-qpkg](https://github.com/rblakeslee/dnsmasq-qpkg).
 
 ### BugFix
 Fixed some issues of the v0.1f release:
@@ -17,9 +17,13 @@ Fixed some issues of the v0.1f release:
 
 The dnsmasq binary files are not updated, as I'm not into cross compiling.
 
-The package is only tested on TS239 Pro II (x86) with firmware 4.2.2 
+The package is only tested on TS239 Pro II (x86) with firmware 4.2.2
 
-Tests and comments are welcome via https://github.com/joachimw68/dnsmasq-qpkg
+Currently it does not run on NAS with Container Station enabled!
+
+[Download](https://github.com/joachimw68/dnsmasq-qpkg/releases)
+
+Tests and comments are welcome.
 
 
 
